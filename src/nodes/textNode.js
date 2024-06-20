@@ -5,12 +5,6 @@ import AbstractNode, { getLeftHandle } from "../abstractNode";
 
 export const TextNode = ({ id, data }) => {
   const inputs = ['input', 'car'];
-
-  const handleClick = () => {
-    if (editableDivRef.current) {
-      editableDivRef.current.focus();
-    }
-  };
   const editableDivRef = useRef(null);
   const [children, setChildren] = useState([]);
 
@@ -43,6 +37,28 @@ export const TextNode = ({ id, data }) => {
       })
       return prev;
     });
+  };
+  const handleClick = () => {
+    if (editableDivRef.current) {
+      editableDivRef.current.focus();
+    }
+  };
+  const setEndOfContenteditable = (contentEditableElement) => {
+    let range, selection;
+    if (document.createRange) {
+      range = document.createRange();
+      range.selectNodeContents(contentEditableElement);
+      range.collapse(false);
+      selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    } else if (document.selection) {
+      range = document.body.createTextRange();
+      range.moveToElementText(contentEditableElement);
+      range.collapse(false);
+      range.select();
+    }
+    handleClick();
   };
 
   useEffect(() => {
@@ -78,33 +94,11 @@ export const TextNode = ({ id, data }) => {
     };
   }, []);
 
-
-
   useEffect(() => {
     if (editableDivRef.current) {
       editableDivRef.current.focus();
     }
-    // document.getElementById('custom-input-box').focus();
   }, []);
-
-
-  const setEndOfContenteditable = (contentEditableElement) => {
-    let range, selection;
-    if (document.createRange) {
-      range = document.createRange();
-      range.selectNodeContents(contentEditableElement);
-      range.collapse(false);
-      selection = window.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
-    } else if (document.selection) {
-      range = document.body.createTextRange();
-      range.moveToElementText(contentEditableElement);
-      range.collapse(false);
-      range.select();
-    }
-    handleClick();
-  };
 
   const handles = {
     left: [],
