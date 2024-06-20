@@ -13,7 +13,7 @@ export const DialogTemplate = ({ data }) => {
             </span>
             <span className='text-container'>
                 <span className='value'>{data.is_dag ? 'Yes' : 'No'}</span>
-                <span className='label'>Is DAG?</span>
+                <span className='label'>Is Pipeline DAG?</span>
             </span>
         </span>
     )
